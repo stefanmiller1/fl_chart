@@ -8,6 +8,8 @@ import 'package:flutter/widgets.dart';
 import '../../utils/utils.dart';
 import 'scatter_chart_data.dart';
 
+///
+
 /// Paints [ScatterChartData] in the canvas, it can be used in a [CustomPainter]
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// [_spotsPaint] is responsible to draw scatter spots
