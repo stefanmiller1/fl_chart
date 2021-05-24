@@ -11,9 +11,11 @@ import 'scatter_chart_data.dart';
 /// Paints [ScatterChartData] in the canvas, it can be used in a [CustomPainter]
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// [_spotsPaint] is responsible to draw scatter spots
+  /// [_spotsPaintBorder] is responsible for drawing border around spots
+  /// [_spotsTextPainter] is responsible for drawing text over spots
   late Paint _spotsPaint, _bgTouchTooltipPaint;
   late Paint _spotsPaintBorder;
-  late TextPainter _spotsTextPainer;
+  late TextPainter _spotsTextPainter;
 
   /// Paints [data] into canvas, it is the animating [ScatterChartData],
   /// [targetData] is the animation's target and remains the same
@@ -26,7 +28,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   ScatterChartPainter() : super() {
     _spotsPaint = Paint()..style = PaintingStyle.fill;
     _spotsPaintBorder = Paint()..style = PaintingStyle.stroke;
-    _spotsTextPainer = TextPainter();
+    _spotsTextPainter = TextPainter();
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
@@ -265,14 +267,14 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       text: scatterSpot.text,
     );
 
-    _spotsTextPainer.text = span;
-    _spotsTextPainer.textAlign = TextAlign.center;
-    _spotsTextPainer.textDirection = TextDirection.ltr;
-    _spotsTextPainer.textScaleFactor = 0.8;
+    _spotsTextPainter.text = span;
+    _spotsTextPainter.textAlign = TextAlign.center;
+    _spotsTextPainter.textDirection = TextDirection.ltr;
+    _spotsTextPainter.textScaleFactor = 0.8;
 
 
-    _spotsTextPainer.layout(maxWidth: scatterSpot.radius * 2.5);
-    canvasWrapper.drawText(_spotsTextPainer, Offset(drawOffset.dx - (_spotsTextPainer.width / 2), drawOffset.dy - (_spotsTextPainer.height / 2)));
+    _spotsTextPainter.layout(maxWidth: scatterSpot.radius * 2.5);
+    canvasWrapper.drawText(_spotsTextPainter, Offset(drawOffset.dx - (_spotsTextPainter.width / 2), drawOffset.dy - (_spotsTextPainter.height / 2)));
 
   }
 
