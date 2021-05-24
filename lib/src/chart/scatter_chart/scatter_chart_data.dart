@@ -160,11 +160,13 @@ class ScatterSpot extends FlSpot with EquatableMixin {
   /// Determines color of the spot.
   Color color;
 
+  /// Determines text label for spot.
   String text;
 
   /// You can change [show] value to show or hide the spot,
   /// [x], and [y] defines the location of spot in the [ScatterChart],
   /// [radius] defines the size of spot, and [color] defines the color of it.
+  /// [text] defines the what the String for the label will be.
   ScatterSpot(
     double x,
     double y, {
@@ -348,7 +350,7 @@ class ScatterTouchedSpot with EquatableMixin {
   List<Object?> get props => [
         spot,
         spotIndex,
-      ];
+  ];
 }
 
 /// Holds representation data for showing tooltip popup on top of spots.
