@@ -13,6 +13,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// [_spotsPaint] is responsible to draw scatter spots
   late Paint _spotsPaint, _bgTouchTooltipPaint;
   late Paint _spotsPaintBorder;
+  late TextPainter _spotsTextPainer;
 
   /// Paints [data] into canvas, it is the animating [ScatterChartData],
   /// [targetData] is the animation's target and remains the same
@@ -24,7 +25,8 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// the system's font size.
   ScatterChartPainter() : super() {
     _spotsPaint = Paint()..style = PaintingStyle.fill;
-
+    _spotsPaintBorder = Paint()..style = PaintingStyle.stroke;
+    _spotsTextPainer = TextPainter();
     _bgTouchTooltipPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.white;
@@ -236,8 +238,6 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       _spotsPaint.color = scatterSpot.color;
       _spotsPaintBorder.color = Colors.white;
       _spotsPaintBorder.strokeWidth = 1;
-      _spotsPaintBorder.style = PaintingStyle.stroke;
-
 
       canvasWrapper.drawCircle(
         Offset(pixelX, pixelY),
@@ -257,6 +257,7 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
     }
   }
 
+  // text drawn on spot center
   void _drawSpotsText(CanvasWrapper canvasWrapper, ScatterSpot scatterSpot, Offset drawOffset) {
 
     final span = TextSpan(
@@ -264,13 +265,14 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       text: scatterSpot.text,
     );
 
-    final drawingTextPainter = TextPainter(
-        text: span,
-        textAlign: TextAlign.center,
-        textDirection: TextDirection.ltr,
-        textScaleFactor: 1.0);
+    _spotsTextPainer.text = span;
+    _spotsTextPainer.textAlign = TextAlign.center;
+    _spotsTextPainer.textDirection = TextDirection.ltr;
+    _spotsTextPainer.textScaleFactor = 0.8;
 
-    canvasWrapper.drawText(drawingTextPainter, drawOffset);
+
+    _spotsTextPainer.layout(maxWidth: scatterSpot.radius * 2.5);
+    canvasWrapper.drawText(_spotsTextPainer, Offset(drawOffset.dx - (_spotsTextPainer.width / 2), drawOffset.dy - (_spotsTextPainer.height / 2)));
 
   }
 
