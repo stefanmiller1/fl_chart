@@ -12,6 +12,7 @@ import 'scatter_chart_data.dart';
 class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
   /// [_spotsPaint] is responsible to draw scatter spots
   late Paint _spotsPaint, _bgTouchTooltipPaint;
+  late Paint _spotsPaintBorder;
 
   /// Paints [data] into canvas, it is the animating [ScatterChartData],
   /// [targetData] is the animation's target and remains the same
@@ -233,13 +234,44 @@ class ScatterChartPainter extends AxisChartPainter<ScatterChartData> {
       final pixelY = getPixelY(scatterSpot.y, chartUsableSize, holder);
 
       _spotsPaint.color = scatterSpot.color;
+      _spotsPaintBorder.color = Colors.white;
+      _spotsPaintBorder.strokeWidth = 1;
+      _spotsPaintBorder.style = PaintingStyle.stroke;
+
 
       canvasWrapper.drawCircle(
         Offset(pixelX, pixelY),
         scatterSpot.radius,
         _spotsPaint,
       );
+      canvasWrapper.drawCircle(
+          Offset(pixelX, pixelY),
+          scatterSpot.radius,
+          _spotsPaintBorder
+      );
+      _drawSpotsText(
+          canvasWrapper,
+          scatterSpot,
+          Offset(pixelX, pixelY)
+      );
     }
+  }
+
+  void _drawSpotsText(CanvasWrapper canvasWrapper, ScatterSpot scatterSpot, Offset drawOffset) {
+
+    final span = TextSpan(
+      style: TextStyle(color: Colors.white),
+      text: scatterSpot.text,
+    );
+
+    final drawingTextPainter = TextPainter(
+        text: span,
+        textAlign: TextAlign.center,
+        textDirection: TextDirection.ltr,
+        textScaleFactor: 1.0);
+
+    canvasWrapper.drawText(drawingTextPainter, drawOffset);
+
   }
 
   void _drawTouchTooltip(CanvasWrapper canvasWrapper, ScatterTouchTooltipData tooltipData,
